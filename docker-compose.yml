@@ -1,0 +1,99 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: ./compose/django/Dockerfile
+    image: logoss_django_dev
+    container_name: logoss_django_dev
+    restart: always
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=1
+      - SECRET_KEY=dev_secret_key
+      - DJANGO_ENV=dev
+      - DJANGO_SETTINGS_MODULE=config.settings.dev
+      - DB_ENGINE=django.db.backends.postgresql
+      - DB_NAME=django_app
+      - DB_USER=django
+      - DB_PASSWORD=django_password
+      - DB_HOST=db_postgres
+      - DB_PORT=5432
+      - ORACLE_USER=django_user
+      - ORACLE_PASSWORD=django_password
+      - ORACLE_DSN=db_oracle:1521/XEPDB1
+      - REDIS_URL=redis://redis:6379/0
+      - POSTGRES_PASSWORD=postgres  # Para permitir acesso administrativo se necessário
+    depends_on:
+      db_postgres:
+        condition: service_healthy
+      db_oracle:
+        condition: service_started
+      redis:
+        condition: service_healthy
+    networks:
+      - logoss_network
+      
+  db_postgres:
+    image: postgres:16-alpine
+    container_name: logoss_postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+      - ./compose/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - logoss_network
+      
+  db_oracle:
+    image: container-registry.oracle.com/database/express:21.3.0-xe
+    container_name: logoss_oracle
+    volumes:
+      - oracle_data:/opt/oracle/oradata
+      - ./compose/oracle/init.sql:/opt/oracle/scripts/startup/init.sql
+    environment:
+      - ORACLE_PWD=oracle_password
+    ports:
+      - "1521:1521"
+      - "5500:5500"  # Para Enterprise Manager
+    shm_size: 1g
+    networks:
+      - logoss_network
+
+  redis:
+    image: redis:7-alpine
+    container_name: logoss_redis
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - logoss_network
+
+networks:
+  logoss_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  oracle_data:
+  redis_data:
