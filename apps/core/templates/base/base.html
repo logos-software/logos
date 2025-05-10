@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt-BR">
+
+<head>
+    <title>{% block title %}{% endblock title %}</title>
+    {% include "include/head.html" %}
+    {% block extracss %}{% endblock extracss %}
+    {{ form.media.css }}
+</head>
+
+<body id="body" class="jumping">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- PAGE CONTAINER -->
+    <div id="root" class="root mn--max hd--expanded">
+        <!-- CONTENTS -->
+        <section id="content" class="content">
+            {% block content %}{% endblock content %}
+            
+            <!-- FOOTER -->
+            <footer>
+                {% include "include/footer.html" %}
+            </footer>
+        </section>
+        
+        {% include "include/header.html" %}
+        
+        <!-- MAIN NAVIGATION -->
+        {% include "include/main_nav.html" %}
+    </div>
+    <!-- END - PAGE CONTAINER -->
+
+    <!-- SCROLL TO TOP BUTTON -->
+    <div class="scroll-container">
+        <a href="#root" class="scroll-page rounded-circle ratio ratio-1x1" aria-label="Scroll button"></a>
+    </div>
+    <!-- END - SCROLL TO TOP BUTTON -->
+
+    <!-- JAVASCRIPTS -->
+    <!-- Popper JS [ OPTIONAL ] -->
+    <script src="{% static 'assets/vendors/popperjs/popper.min.js'%} " defer></script>
+
+    <!-- Bootstrap JS [ OPTIONAL ] -->
+    <script src="{% static 'assets/vendors/bootstrap/bootstrap.min.js'%}" defer></script>
+
+    <!-- Nifty JS [ OPTIONAL ] -->
+    <script src="{% static 'assets/js/nifty.js'%}" defer></script>
+
+    <!-- Nifty Settings [ DEMO ] -->
+    <script src="{% static 'assets/js/demo-purpose-only.js'%}" defer></script>
+
+    <!-- Chart JS Scripts [ OPTIONAL ] -->
+    <script src="{% static 'assets/vendors/chart.js/chart.min.js'%}" defer></script>
+
+    <!-- Initialize [ SAMPLE ] -->
+    <script src="{% static 'assets/pages/dashboard-1.js'%}" defer></script>
+    <script src="{% static 'assets/pages/tooltips-popovers.js'%}" defer></script>
+    {% block extrajavascript %}{% endblock extrajavascript %}
+
+    {% include "include/toast_alert.html" %}
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://unpkg.com/htmx.org@1.3.1/dist/htmx.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.6.5/sweetalert2.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js" type="text/javascript"></script>
+    
+    <!-- Prevent default event after click on browser arrow -->
+    <script>
+        function disableBack() { window.history.forward(); }
+        setTimeout("disableBack()", 0);
+        window.onunload = function (e) { 
+            e.preventDefault();
+            return null;
+        };
+    </script>
+
+</body>
+
+</html>

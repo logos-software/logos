@@ -1,0 +1,33 @@
+<script>
+  function showToastMessage(message, message_tag){
+
+      const backgroundColor = {
+        error: '#FF6059',
+        info: '#59B0FF',
+        warning: '#F3FF59',
+        success: '#B8DEB0'
+      }
+      const toast = Toastify({
+      text: message,
+      duration: 5000,
+      stopOnFocus: true,
+      style: {
+        background: backgroundColor[message_tag]
+      }
+      });
+  
+      return toast.showToast();
+  }
+
+  var djangoMessages = [];
+  {% for message in messages %}
+      djangoMessages.push({message:'{{ message|escapejs }}', tag:'{{message.tags|escapejs}}'});
+  {% endfor %}
+  console.log(djangoMessages)
+  
+  document.addEventListener('DOMContentLoaded', function() {
+      djangoMessages.forEach(function(message) {
+          showToastMessage(message['message'], message['tag']);
+      });
+  });
+</script>
