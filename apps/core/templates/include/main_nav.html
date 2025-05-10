@@ -70,73 +70,11 @@
                     <!-- END : Link with submenu -->
                 </ul>
             </div>
-            <!-- END : Navigation Category -->
-
-            <!-- Components Category -->
-            <div class="mainnav__category py-3">
-                <h6 class="mainnav__caption mt-0 px-3 fw-bold">Notas</h6>
-                <ul class="mainnav__menu nav flex-column">
-
-                    <!-- Link with submenu -->
-                    <li class="nav-item has-sub">
-                        <a href="#" class="mininav-toggle nav-link collapsed">
-                            <i class="pli-file fs-5 me-2"></i>
-                            <span class="nav-label ms-1">Notas Ostensivas</span>
-                        </a>
-
-                        <!-- Submenu list -->
-                        <ul class="mininav-content nav collapse">
-
-                            <li class="nav-item has-sub">
-                                <a href="#" class="mininav-toggle nav-link collapsed">
-                                    <span class="nav-label ms-1">Trâmitação de Notas</span>
-                                </a>
-
-                                <ul class="mininav-content nav collapse">
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">Validar
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#"
-                                            class="nav-link">Homologar</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#"
-                                            class="nav-link">Aprovar</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#"
-                                            class="nav-link">Retificar</a>
-                                    </li>
-                                </ul>
-                            </li>
-    
-                            <li class="nav-item has-sub">
-                                <a href="#" class="mininav-toggle nav-link collapsed">
-                                    <span class="nav-label ms-1">Criação de Notas</span>
-                                </a>
-
-                                <ul class="mininav-content nav collapse">
-                                <form id="main_form" method="POST" action="#">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="note_event_code" id="note_to_change">
-                                    <!-- Nested submenu list -->
-                                        {% for event in events %}
-                                        <li class="nav-item">
-                                            <a type="submit" onclick="setEventCode('{{event.cod_evento}}')"
-                                                class="nav-link">{{event.nome_evento_abrev}}
-                                            </a>
-                                        </li>
-                                        {% endfor %}
-                                    </form>
-                                </ul>
-
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
+            <!-- END : Navigation Category -->            <!-- Dynamic Modules Navigation -->
+            {% load navigation %}
+            {% if user.is_authenticated %}
+                {% render_nav_menu %}
+            {% endif %}
 
             <!-- END : Components Category -->
             <!-- Widget -->

@@ -5,6 +5,8 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.views.generic import TemplateView
 
+from .models import Module
+
 
 class IndexView(LoginRequiredMixin, TemplateView):
     template_name = "index.html"
@@ -12,11 +14,10 @@ class IndexView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         user = self.request.user
         context = super().get_context_data(**kwargs)
-        context.update(
-            {
-                "username": user.get_username(),
-            }
-        )
+        
+        context.update({
+            "username": user.get_username(),
+        })
         return context
 
 
