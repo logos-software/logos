@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt-br">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+  <title>{% block title %}{{ title|default:"Login" }} | {{ app_name|default:"Sistema Logos" }}{% endblock title %}</title>
+
+  <!-- STYLESHEETS -->
+  <!-- Fonts [ OPTIONAL ] -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/bs-brain@2.0.3/components/logins/login-3/assets/css/login-3.css">
+
+  <!-- Global CSS [ REQUIRED ] -->
+  <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
+  <!-- Bootstrap CSS [ REQUIRED ] -->
+  <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+  <!-- Nifty CSS [ REQUIRED ] -->
+  <link rel="stylesheet" href="{% static 'assets/css/nifty.min.css' %}">
+  <!-- Premium line icons [ OPTIONAL ] -->
+  <link rel="stylesheet" href="{% static 'assets/premium/icon-sets/icons/line-icons/premium-line-icons.min.css' %}">
+  <!-- Premium solid icons [ OPTIONAL ] -->
+  <link rel="stylesheet" href="{% static 'assets/premium/icon-sets/icons/solid-icons/premium-solid-icons.min.css' %}">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" type="text/css">
+
+  {% block extra_css %}{% endblock %}
+</head>
+
+<body class="gradient-custom-2">
+  {% block content %}{% endblock %}
+
+  {% include "include/toast_alert.html" %}
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js" type="text/javascript"></script>
+  {% block extra_js %}{% endblock %}
+</body>
+
+</html>
