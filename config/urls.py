@@ -25,7 +25,7 @@ urlpatterns = [
     # URLs dos aplicativos
     path('', include('apps.core.urls')),
     path('users/', include('apps.users.urls')),
-    path('nodes/', include('apps.nodes.urls')),
+    path('notes/', include('apps.notes.urls')),
     path('utils/', include('apps.utils.urls')),
 ]
 

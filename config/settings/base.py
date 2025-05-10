@@ -9,6 +9,9 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
+# Application configuration
+APP_NAME = "Sistema Logos"
+
 # Application definition
 DJANGO_APPS = [
     'django.contrib.admin',
@@ -29,12 +32,20 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     'apps.core',
-    'apps.nodes',
+    'apps.notes',
     'apps.users',
     'apps.utils',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+
+# Configuração do modelo de usuário personalizado
+AUTH_USER_MODEL = 'users.User'
+
+# Authentication settings
+LOGIN_URL = 'users/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = LOGIN_URL
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -106,6 +117,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 10,
+        }
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
@@ -113,6 +127,17 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
+]
+
+# Configurações de segurança para usuários
+PASSWORD_EXPIRY_DAYS = 90
+MAX_LOGIN_ATTEMPTS = 5
+LOGIN_LOCKOUT_MINUTES = 30
+
+# Backend de autenticação personalizado
+AUTHENTICATION_BACKENDS = [
+    'apps.users.backends.CustomAuthBackend',  # Mantemos o caminho completo para o import
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
 # Internationalization
