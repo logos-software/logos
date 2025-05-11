@@ -16,6 +16,22 @@ ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
 # Configuração para arquivos estáticos em produção
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+# Configurações adicionais do WhiteNoise para melhor performance
+WHITENOISE_MAX_AGE = 31536000  # 1 ano em segundos
+WHITENOISE_MANIFEST_STRICT = True
+WHITENOISE_USE_FINDERS = False  # Desabilita procura de arquivos em desenvolvimento
+WHITENOISE_AUTOREFRESH = False  # Desabilita auto-refresh em produção
+WHITENOISE_MIMETYPES = {
+    'application/font-woff': 'application/octet-stream',
+    'application/font-woff2': 'application/octet-stream',
+    'application/vnd.ms-fontobject': 'application/octet-stream',
+    'application/x-font-ttf': 'application/octet-stream',
+    'application/x-font-woff': 'application/octet-stream',
+    'font/opentype': 'application/octet-stream',
+    'font/woff': 'application/octet-stream',
+    'font/woff2': 'application/octet-stream',
+}
+
 # Configurações de segurança para produção
 SECURE_SSL_REDIRECT = True
 SESSION_COOKIE_SECURE = True
