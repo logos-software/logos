@@ -28,6 +28,8 @@ THIRD_PARTY_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'debug_toolbar',
+    'localflavor',
+    'django_cpf_cnpj',
 ]
 
 LOCAL_APPS = [
@@ -35,6 +37,7 @@ LOCAL_APPS = [
     'apps.notes',
     'apps.users',
     'apps.utils',
+    'apps.police',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS

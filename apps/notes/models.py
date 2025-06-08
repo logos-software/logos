@@ -169,6 +169,12 @@ class Note(UUIDBaseModel):
 
     def __str__(self):
         return self.title
+    
+    def gerar_texto(self):
+        """
+        Gera um texto a partir do conteúdo da nota.
+        """
+        return self.content
 
 
 class NoteEvent(UUIDBaseModel):

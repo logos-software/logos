@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 # Script para aplicar migrações em todos os bancos de dados configurados
 
 echo "=== Aplicando migrações em todos os bancos de dados ==="

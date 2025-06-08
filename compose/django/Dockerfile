@@ -29,11 +29,9 @@ RUN curl -LO https://download.oracle.com/otn_software/linux/instantclient/instan
 
 WORKDIR /app
 
-# Copia requirements.txt e instala dependências Python
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copia os scripts de entrypoint e migrações
 COPY compose/django/entrypoint.sh /usr/local/bin/
 COPY compose/django/apply_migrations.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh /usr/local/bin/apply_migrations.sh && \
@@ -47,5 +45,5 @@ COPY . .
 EXPOSE 8000
 
 # Define o entrypoint e comando de inicialização
-ENTRYPOINT ["entrypoint.sh"]
+ENTRYPOINT ["sh", "/usr/local/bin/entrypoint.sh"]
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
