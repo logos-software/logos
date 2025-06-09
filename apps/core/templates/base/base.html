@@ -12,11 +12,27 @@
     <!-- CSS Extras -->
     {% block extracss %}{% endblock extracss %}
     {{ form.media.css }}
+    <link href="{% static 'assets/css/custom.css' %}" rel="stylesheet">
 </head>
 
 <body id="body" class="jumping">
-    <!-- JQuery precisa estar no topo para outros scripts -->
+    <!-- Loading overlay -->
+    <div id="loading-overlay" style="display: none;">
+        <div class="loading-spinner">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Carregando...</span>
+            </div>
+            <div class="loading-text mt-2">Carregando...</div>
+        </div>
+    </div>
+
+    <!-- JQuery precisa estar no topo -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- Scripts base Bootstrap na ordem correta -->
+    <script src="{% static 'assets/vendors/popperjs/popper.min.js' %}"></script>
+    <script src="{% static 'assets/vendors/bootstrap/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/js/nifty.js' %}"></script>
     
     <!-- PAGE CONTAINER -->
     <div id="root" class="root mn--max hd--expanded">
@@ -31,21 +47,19 @@
             {% block content %}{% endblock content %}
             
             <!-- Footer -->
-            <footer>
+            <footer class="mt-auto">
                 {% include "include/footer.html" %}
             </footer>
         </section>
     </div>
 
+    <!-- Área para Modais -->
+    {% block modals %}{% endblock modals %}
+
     <!-- Botão voltar ao topo -->
     <div class="scroll-container">
         <a href="#root" class="scroll-page rounded-circle ratio ratio-1x1" aria-label="Voltar ao topo"></a>
     </div>
-
-    <!-- Scripts base -->
-    <script src="{% static 'assets/vendors/popperjs/popper.min.js' %}" defer></script>
-    <script src="{% static 'assets/vendors/bootstrap/bootstrap.min.js' %}" defer></script>
-    <script src="{% static 'assets/js/nifty.js' %}" defer></script>
 
     <!-- Scripts opcionais -->
     <script src="{% static 'assets/js/demo-purpose-only.js' %}" defer></script>
@@ -63,8 +77,12 @@
     <!-- Toast alerts -->
     {% include "include/toast_alert.html" %}
     
+    <!-- Loading Manager -->
+    <script src="{% static 'assets/js/loading.js' %}"></script>
+    
     <!-- Scripts extras -->
     {% block extrajavascript %}{% endblock extrajavascript %}
+    <script src="{% static 'assets/js/menu.js' %}"></script>
 
     <!-- Previne navegação para trás -->
     <script>

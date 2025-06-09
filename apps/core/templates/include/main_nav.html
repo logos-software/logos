@@ -70,12 +70,52 @@
                     <!-- END : Link with submenu -->
                 </ul>
             </div>
-            <!-- END : Navigation Category -->            <!-- Dynamic Modules Navigation -->
+            <!-- END : Navigation Category -->
+
+            {% if user.is_staff %}
+                <!-- Navigation Category -->
+                <div class="mainnav__categoriy py-3">
+                    <h6 class="mainnav__caption mt-0 px-3 fw-bold">Gestão de Funções</h6>
+                    <ul class="mainnav__menu nav flex-column">
+                        <li class="nav-item">
+                            <a href="#submenu-funcoes" data-bs-toggle="collapse" 
+                            class="nav-link collapsed d-flex justify-content-between align-items-center">
+                                <span>
+                                    <i class="demo-pli-id-card fs-5 me-2"></i>
+                                    <span class="nav-label">Funções</span>
+                                </span>
+                                <i class="demo-pli-arrow-down fs-5"></i>
+                            </a>
+                            <div class="collapse" id="submenu-funcoes">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a href="{% url 'police:grupo-funcao-list' %}" class="nav-link">
+                                            <i class="demo-pli-folder fs-5 me-2"></i>
+                                            <span class="nav-label">Grupos de Função</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{% url 'police:funcao-list' %}" class="nav-link">
+                                            <i class="demo-pli-medal-2 fs-5 me-2"></i>
+                                            <span class="nav-label">Funções</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!-- END : Navigation Category -->
+            {% endif%}
+
+            <!-- Dynamic Modules Navigation -->
             {% load navigation %}
             {% if user.is_authenticated %}
                 {% render_nav_menu %}
             {% endif %}
 
+            
+            
             <!-- END : Components Category -->
             <!-- Widget -->
             <div class="mainnav__profile">
