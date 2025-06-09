@@ -3,6 +3,12 @@
 
 {% block title %}Funções{% endblock %}
 
+{% block extracss %}
+<link href="{% static 'vendors/sweetalert2/sweetalert2.min.css' %}" rel="stylesheet">
+<link href="{% static 'vendors/select2/select2.min.css' %}" rel="stylesheet">
+<link href="{% static 'vendors/select2/select2-bootstrap-5-theme.min.css' %}" rel="stylesheet">
+{% endblock %}
+
 {% block content %}
 <div class="content__header content__boxed overlapping">
     <div class="content__wrap">
@@ -55,6 +61,10 @@
                                 </button>
                             </td>
                         </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center">Nenhuma função encontrada.</td>
+                        </tr>
                         {% endfor %}
                     </tbody>
                 </table>
@@ -63,20 +73,26 @@
         </div>
     </div>
 </div>
+{% endblock %}
 
+{% block modals %}
 {% include 'police/funcoes/includes/_funcao_form_modal.html' %}
-
 {% endblock %}
 
 {% block extrajavascript %}
+<script src="{% static 'vendors/sweetalert2/sweetalert2.all.min.js' %}"></script>
+<script src="{% static 'vendors/select2/select2.min.js' %}"></script>
 <script>
-$(document).ready(function() {
-    // Inicializar Select2
-    $('.select2').select2({
-        theme: 'bootstrap-5'
+    const funcaoUrls = {
+        create: "{% url 'police:funcao-create' %}",
+        update: "{% url 'police:funcao-update' 0 %}",
+        delete: "{% url 'police:funcao-delete' 0 %}"
+    };
+</script>
+<script src="{% static 'police/js/funcao.js' %}"></script>
+<script>
+    $(document).ready(function() {
+        window.funcaoManager = new FuncaoManager();
     });
-
-    // Código similar ao do grupo_list.html, adaptado para funções
-});
 </script>
 {% endblock %}

@@ -57,9 +57,7 @@ class GrupoFuncaoDeleteView(BaseDeleteView):
     success_url = reverse_lazy('police:grupo-funcao-list')
 
 # Views para Função
-
-
-class FuncaoListView(ListView):
+class FuncaoListView(BaseListView):
     model = Funcao
     template_name = 'police/funcoes/funcao_list.html'
     context_object_name = 'funcoes'
@@ -67,38 +65,35 @@ class FuncaoListView(ListView):
     paginate_by = 10
 
 
-class FuncaoCreateView(CreateView):
+class FuncaoCreateView(BaseCreateView):
     model = Funcao
     form_class = FuncaoForm
-    template_name = 'police/funcoes/funcao_form.html'
+    template_name = 'police/funcoes/includes/_funcao_form.html'
     success_url = reverse_lazy('police:funcao-list')
+    success_message = 'Função criada com sucesso!'
 
-    def form_valid(self, form):
-        messages.success(self.request, 'Função criada com sucesso!')
-        return super().form_valid(form)
-
-    def form_invalid(self, form):
-        if self.request.is_ajax():
-            return JsonResponse(form.errors, status=400)
-        return super().form_invalid(form)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Nova Função'
+        return context
 
 
-class FuncaoUpdateView(UpdateView):
+class FuncaoUpdateView(BaseUpdateView):
     model = Funcao
     form_class = FuncaoForm
-    template_name = 'police/funcoes/funcao_form.html'
+    template_name = 'police/funcoes/includes/_funcao_form.html'
     success_url = reverse_lazy('police:funcao-list')
+    success_message = 'Função atualizada com sucesso!'
 
-    def form_valid(self, form):
-        messages.success(self.request, 'Função atualizada com sucesso!')
-        return super().form_valid(form)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'title': f'Editar Função: {self.object.nome}',
+            'object': self.object,
+        })
+        return context
 
 
-class FuncaoDeleteView(DeleteView):
+class FuncaoDeleteView(BaseDeleteView):
     model = Funcao
-    template_name = 'police/funcoes/funcao_confirm_delete.html'
     success_url = reverse_lazy('police:funcao-list')
-
-    def delete(self, request, *args, **kwargs):
-        messages.success(request, 'Função excluída com sucesso!')
-        return super().delete(request, *args, **kwargs)
