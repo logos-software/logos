@@ -48,3 +48,40 @@ class EscolaridadeChoices(models.TextChoices):
     MESTRADO = 'ME', 'Mestrado'
     DOUTORADO = 'DO', 'Doutorado'
     POS_DOUTORADO = 'PD', 'Pós-Doutorado'
+
+class CorOlhosChoices(models.TextChoices):
+    """Choices para cores dos olhos"""
+    CASTANHO = 'CA', 'Castanho'
+    PRETO = 'PR', 'Preto'
+    AZUL = 'AZ', 'Azul'
+    VERDE = 'VE', 'Verde'
+    AMENDOA = 'AM', 'Amêndoa'
+    MEL = 'ME', 'Mel'
+    OUTRO = 'OU', 'Outro'
+
+class CorCabeloChoices(models.TextChoices):
+    """Choices para cores do cabelo"""
+    PRETO = 'PR', 'Preto'
+    CASTANHO = 'CA', 'Castanho'
+    LOIRO = 'LO', 'Loiro'
+    RUIVO = 'RU', 'Ruivo'
+    GRISALHO = 'GR', 'Grisalho'
+    BRANCO = 'BR', 'Branco'
+    OUTRO = 'OU', 'Outro'
+
+class CorPeleChoices(models.TextChoices):
+    """Choices para cores da pele"""
+    BRANCA = 'BR', 'Branca'
+    PRETA = 'PR', 'Preta'
+    PARDA = 'PA', 'Parda'
+    AMARELA = 'AM', 'Amarela'
+    INDIGENA = 'IN', 'Indígena'
+    OUTRA = 'OU', 'Outra'
+
+class TipoCabeloChoices(models.TextChoices):
+    """Choices para tipos de cabelo"""
+    LISO = 'LI', 'Liso'
+    ONDULADO = 'ON', 'Ondulado'
+    CACHEADO = 'CA', 'Cacheado'
+    CRESPO = 'CR', 'Crespo'
+    OUTRO = 'OU', 'Outro'

@@ -1,0 +1,68 @@
+{% extends 'police/policiais/wizard/base_wizard.html' %}
+
+{% block wizard_content %}
+<div class="row g-3">
+    <!-- Seção de Dados Bancários -->
+    <div class="col-12">
+        <h6 class="section-title">
+            <i class="demo-pli-credit-card fs-5 me-2"></i>
+            Informações Bancárias
+        </h6>
+        <hr class="mb-4">
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="{{ wizard.form.banco.id_for_label }}" class="form-label">
+                {{ wizard.form.banco.label }}
+                <span class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="demo-pli-building"></i>
+                </span>
+                {{ wizard.form.banco }}
+            </div>
+            {% if wizard.form.banco.errors %}
+                <div class="invalid-feedback d-block">{{ wizard.form.banco.errors.0 }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="{{ wizard.form.agencia.id_for_label }}" class="form-label">
+                {{ wizard.form.agencia.label }}
+                <span class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="demo-pli-bank"></i>
+                </span>
+                {{ wizard.form.agencia }}
+            </div>
+            {% if wizard.form.agencia.errors %}
+                <div class="invalid-feedback d-block">{{ wizard.form.agencia.errors.0 }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="{{ wizard.form.conta.id_for_label }}" class="form-label">
+                {{ wizard.form.conta.label }}
+                <span class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="demo-pli-wallet-2"></i>
+                </span>
+                {{ wizard.form.conta }}
+            </div>
+            {% if wizard.form.conta.errors %}
+                <div class="invalid-feedback d-block">{{ wizard.form.conta.errors.0 }}</div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

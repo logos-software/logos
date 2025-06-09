@@ -1,0 +1,155 @@
+{% extends 'police/policiais/wizard/base_wizard.html' %}
+
+{% block wizard_content %}
+<div class="row g-3">
+    <!-- Seção de Medidas -->
+    <div class="col-12">
+        <h6 class="section-title">
+            <i class="demo-pli-ruler-2 fs-5 me-2"></i>
+            Medidas Físicas
+        </h6>
+        <hr class="mb-4">
+    </div>
+
+    <!-- Primeira linha - Altura e Peso -->
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="{{ wizard.form.altura.id_for_label }}" class="form-label">
+                {{ wizard.form.altura.label }}
+                <span class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="demo-pli-arrow-up"></i>
+                </span>
+                {{ wizard.form.altura }}
+                <span class="input-group-text">m</span>
+            </div>
+            {% if wizard.form.altura.errors %}
+                <div class="invalid-feedback d-block">{{ wizard.form.altura.errors.0 }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="{{ wizard.form.peso.id_for_label }}" class="form-label">
+                {{ wizard.form.peso.label }}
+                <span class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="demo-pli-weight"></i>
+                </span>
+                {{ wizard.form.peso }}
+                <span class="input-group-text">kg</span>
+            </div>
+            {% if wizard.form.peso.errors %}
+                <div class="invalid-feedback d-block">{{ wizard.form.peso.errors.0 }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Seção de Características -->
+    <div class="col-12 mt-4">
+        <h6 class="section-title">
+            <i class="demo-pli-eye fs-5 me-2"></i>
+            Características
+        </h6>
+        <hr class="mb-4">
+    </div>
+
+    <!-- Segunda linha - Tipo Sanguíneo e Cor da Pele -->
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="{{ wizard.form.tipo_sanguineo.id_for_label }}" class="form-label">
+                {{ wizard.form.tipo_sanguineo.label }}
+                <span class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="demo-pli-drop"></i>
+                </span>
+                {{ wizard.form.tipo_sanguineo }}
+            </div>
+            {% if wizard.form.tipo_sanguineo.errors %}
+                <div class="invalid-feedback d-block">{{ wizard.form.tipo_sanguineo.errors.0 }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="{{ wizard.form.cor_pele.id_for_label }}" class="form-label">
+                {{ wizard.form.cor_pele.label }}
+                <span class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="demo-pli-paint-bucket"></i>
+                </span>
+                {{ wizard.form.cor_pele }}
+            </div>
+            {% if wizard.form.cor_pele.errors %}
+                <div class="invalid-feedback d-block">{{ wizard.form.cor_pele.errors.0 }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Terceira linha - Cor dos Olhos e Cor dos Cabelos -->
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="{{ wizard.form.cor_olhos.id_for_label }}" class="form-label">
+                {{ wizard.form.cor_olhos.label }}
+                <span class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="demo-pli-eye"></i>
+                </span>
+                {{ wizard.form.cor_olhos }}
+            </div>
+            {% if wizard.form.cor_olhos.errors %}
+                <div class="invalid-feedback d-block">{{ wizard.form.cor_olhos.errors.0 }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="{{ wizard.form.cor_cabelos.id_for_label }}" class="form-label">
+                {{ wizard.form.cor_cabelos.label }}
+                <span class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="demo-pli-paint-bucket"></i>
+                </span>
+                {{ wizard.form.cor_cabelos }}
+            </div>
+            {% if wizard.form.cor_cabelos.errors %}
+                <div class="invalid-feedback d-block">{{ wizard.form.cor_cabelos.errors.0 }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Quarta linha - Tipo de Cabelo -->
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="{{ wizard.form.tipo_cabelos.id_for_label }}" class="form-label">
+                {{ wizard.form.tipo_cabelos.label }}
+                <span class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="demo-pli-brush"></i>
+                </span>
+                {{ wizard.form.tipo_cabelos }}
+            </div>
+            {% if wizard.form.tipo_cabelos.errors %}
+                <div class="invalid-feedback d-block">{{ wizard.form.tipo_cabelos.errors.0 }}</div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -30,6 +30,7 @@ THIRD_PARTY_APPS = [
     'debug_toolbar',
     'localflavor',
     'django_cpf_cnpj',
+    'formtools',
 ]
 
 LOCAL_APPS = [

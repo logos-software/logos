@@ -1,16 +1,27 @@
+from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.core.validators import MinLengthValidator
 from django.db import models
 from django_cpf_cnpj.validators import validate_cpf
 from localflavor.br.models import BRCPFField, BRStateField
 
-from apps.police.choices import (EscolaridadeChoices, EstadoCivilChoices,
-                                 GrauParentescoChoices, SexoChoices,
+from apps.police.choices import (CorCabeloChoices, CorOlhosChoices,
+                                 CorPeleChoices, EscolaridadeChoices,
+                                 EstadoCivilChoices, GrauParentescoChoices,
+                                 SexoChoices, TipoCabeloChoices,
                                  TipoSanguineoChoices)
 from apps.utils.models import BaseModel
 
 
 class Policial(BaseModel):
     """Modelo para representar dados do Policial"""
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.PROTECT,
+        related_name='policial',
+        verbose_name='Usuário',
+        help_text='Usuário do sistema associado ao policial'
+    )
     matricula = models.CharField(
         'Matrícula',
         max_length=20,
@@ -163,6 +174,18 @@ class Policial(BaseModel):
         return f"{self.matricula} - {self.nome}"
 
     def clean(self):
+        """Validação do modelo"""
+        super().clean()
+
+        # Validação do CPF
+        if self.cpf:
+            self.cpf = ''.join(filter(str.isdigit, self.cpf))
+
+            if len(self.cpf) != 11:
+                raise ValidationError({
+                    'cpf': 'CPF deve conter 11 dígitos.'
+                })
+
         self.nome = self.nome.upper()
         self.nome_guerra = self.nome_guerra.upper()
 
@@ -175,6 +198,36 @@ class Policial(BaseModel):
             (self.data_nascimento.month, self.data_nascimento.day)
         )
 
+    def save(self, *args, **kwargs):
+        """Sobrescrevendo save para garantir sincronização com User"""
+        if not self.pk and not hasattr(self, 'user'):
+            from django.contrib.auth import get_user_model
+
+            from apps.users.models.auth.choices import (UserStatusChoices,
+                                                        UserTypeChoices)
+
+            User = get_user_model()
+            user = User.objects.create_user(
+                username=self.matricula,
+                email=self.email,
+                password=None,  # Senha deve ser definida posteriormente
+                first_name=self.nome.split()[0],
+                last_name=' '.join(self.nome.split()[1:]),
+                user_type=UserTypeChoices.POLICE,
+                status=UserStatusChoices.ACTIVE
+            )
+            self.user = user
+
+        super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        """Sobrescrevendo delete para inativar o usuário"""
+        if self.user:
+            from apps.users.models.auth.choices import UserStatusChoices
+            self.user.status = UserStatusChoices.INACTIVE
+            self.user.save()
+        super().delete(*args, **kwargs)
+
 
 class DadosFisicos(BaseModel):
     """Características físicas do Policial"""
@@ -186,32 +239,45 @@ class DadosFisicos(BaseModel):
     altura = models.DecimalField(
         'Altura (m)',
         max_digits=3,
-        decimal_places=2,
-        null=True,
-        blank=True
+        decimal_places=2
     )
     peso = models.DecimalField(
         'Peso (kg)',
         max_digits=5,
-        decimal_places=2,
-        null=True,
-        blank=True
+        decimal_places=2
     )
     tipo_sanguineo = models.CharField(
         'Tipo Sanguíneo',
         max_length=3,
-        choices=TipoSanguineoChoices.choices,
-        null=True,
-        blank=True
+        choices=TipoSanguineoChoices.choices
     )
-    cor_olhos = models.CharField(max_length=20, blank=True)
-    cor_cabelo = models.CharField(max_length=20, blank=True)
-    cor_pele = models.CharField(max_length=20, blank=True)
-    usa_oculos = models.BooleanField('Usa Óculos?', default=False)
+    cor_olhos = models.CharField(
+        'Cor dos Olhos',
+        max_length=2,
+        choices=CorOlhosChoices.choices
+    )
+    cor_cabelos = models.CharField(
+        'Cor do Cabelo',
+        max_length=2,
+        choices=CorCabeloChoices.choices
+    )
+    tipo_cabelos = models.CharField(
+        'Tipo do Cabelo',
+        max_length=2,
+        choices=TipoCabeloChoices.choices
+    )
+    cor_pele = models.CharField(
+        'Cor da Pele',
+        max_length=2,
+        choices=CorPeleChoices.choices
+    )
 
     class Meta:
         verbose_name = 'Dados Físicos'
         verbose_name_plural = 'Dados Físicos'
+
+    def __str__(self):
+        return f"Dados Físicos - {self.policial}"
 
 
 class Fardamento(BaseModel):

@@ -1,0 +1,241 @@
+{% extends 'police/policiais/wizard/base_wizard.html' %}
+{% load static %}
+
+{% block wizard_content %}
+<div class="row g-3">
+    <!-- Seção de Contatos -->
+    <div class="col-12">
+        <h6 class="section-title">
+            <i class="demo-pli-phone-settings fs-5 me-2"></i>
+            Informações de Contato
+        </h6>
+        <hr class="mb-4">
+    </div>
+
+    <!-- Primeira linha - E-mails -->
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="{{ wizard.form.email.id_for_label }}" class="form-label">
+                {{ wizard.form.email.label }}
+                <span class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="demo-pli-mail"></i>
+                </span>
+                {{ wizard.form.email }}
+            </div>
+            {% if wizard.form.email.errors %}
+                <div class="invalid-feedback d-block">{{ wizard.form.email.errors.0 }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="{{ wizard.form.email_pessoal.id_for_label }}" class="form-label">
+                {{ wizard.form.email_pessoal.label }}
+            </label>
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="demo-pli-mail"></i>
+                </span>
+                {{ wizard.form.email_pessoal }}
+            </div>
+            {% if wizard.form.email_pessoal.errors %}
+                <div class="invalid-feedback d-block">{{ wizard.form.email_pessoal.errors.0 }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Segunda linha - Telefones -->
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="{{ wizard.form.telefone.id_for_label }}" class="form-label">
+                {{ wizard.form.telefone.label }}
+            </label>
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="demo-pli-phone"></i>
+                </span>
+                {{ wizard.form.telefone }}
+            </div>
+            {% if wizard.form.telefone.errors %}
+                <div class="invalid-feedback d-block">{{ wizard.form.telefone.errors.0 }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="{{ wizard.form.celular.id_for_label }}" class="form-label">
+                {{ wizard.form.celular.label }}
+                <span class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="demo-pli-smartphone-3"></i>
+                </span>
+                {{ wizard.form.celular }}
+            </div>
+            {% if wizard.form.celular.errors %}
+                <div class="invalid-feedback d-block">{{ wizard.form.celular.errors.0 }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Seção de Endereço -->
+    <div class="col-12 mt-4">
+        <h6 class="section-title">
+            <i class="demo-pli-map-marker-2 fs-5 me-2"></i>
+            Endereço
+        </h6>
+        <hr class="mb-4">
+    </div>
+
+    <!-- Terceira linha - CEP e Endereço -->
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="{{ wizard.form.cep.id_for_label }}" class="form-label">
+                {{ wizard.form.cep.label }}
+                <span class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="demo-pli-map-marker-2"></i>
+                </span>
+                {{ wizard.form.cep }}
+                <button type="button" class="btn btn-primary" id="buscar-cep">
+                    <i class="demo-pli-magnifi-glass"></i>
+                </button>
+            </div>
+            {% if wizard.form.cep.errors %}
+                <div class="invalid-feedback d-block">{{ wizard.form.cep.errors.0 }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-md-7">
+        <div class="form-group">
+            <label for="{{ wizard.form.endereco.id_for_label }}" class="form-label">
+                {{ wizard.form.endereco.label }}
+                <span class="text-danger">*</span>
+            </label>
+            {{ wizard.form.endereco }}
+            {% if wizard.form.endereco.errors %}
+                <div class="invalid-feedback d-block">{{ wizard.form.endereco.errors.0 }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="{{ wizard.form.numero.id_for_label }}" class="form-label">
+                {{ wizard.form.numero.label }}
+                <span class="text-danger">*</span>
+            </label>
+            {{ wizard.form.numero }}
+            {% if wizard.form.numero.errors %}
+                <div class="invalid-feedback d-block">{{ wizard.form.numero.errors.0 }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Quarta linha - Complemento, Bairro -->
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="{{ wizard.form.complemento.id_for_label }}" class="form-label">
+                {{ wizard.form.complemento.label }}
+            </label>
+            {{ wizard.form.complemento }}
+            {% if wizard.form.complemento.errors %}
+                <div class="invalid-feedback d-block">{{ wizard.form.complemento.errors.0 }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="form-group">
+            <label for="{{ wizard.form.bairro.id_for_label }}" class="form-label">
+                {{ wizard.form.bairro.label }}
+                <span class="text-danger">*</span>
+            </label>
+            {{ wizard.form.bairro }}
+            {% if wizard.form.bairro.errors %}
+                <div class="invalid-feedback d-block">{{ wizard.form.bairro.errors.0 }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Quinta linha - Cidade e UF -->
+    <div class="col-md-8">
+        <div class="form-group">
+            <label for="{{ wizard.form.cidade.id_for_label }}" class="form-label">
+                {{ wizard.form.cidade.label }}
+                <span class="text-danger">*</span>
+            </label>
+            {{ wizard.form.cidade }}
+            {% if wizard.form.cidade.errors %}
+                <div class="invalid-feedback d-block">{{ wizard.form.cidade.errors.0 }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="{{ wizard.form.uf.id_for_label }}" class="form-label">
+                {{ wizard.form.uf.label }}
+                <span class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="demo-pli-map"></i>
+                </span>
+                {{ wizard.form.uf }}
+            </div>
+            {% if wizard.form.uf.errors %}
+                <div class="invalid-feedback d-block">{{ wizard.form.uf.errors.0 }}</div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extracss %}
+{{ block.super }}
+<style>
+    .section-title {
+        color: var(--bs-primary);
+        margin-bottom: 0;
+    }
+    .input-group.loading {
+        position: relative;
+    }
+    .input-group.loading::after {
+        content: '';
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 15px;
+        height: 15px;
+        border: 2px solid var(--bs-primary);
+        border-top-color: transparent;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+        to { transform: translateY(-50%) rotate(360deg); }
+    }
+</style>
+{% endblock %}
+
+{% block extrajavascript %}
+{{ block.super }}
+<script src="{% static 'police/js/cep.js' %}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        new CepManager();
+    });
+</script>
+{% endblock %}

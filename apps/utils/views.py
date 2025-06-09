@@ -1,9 +1,15 @@
+import os
+
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import ImproperlyConfigured
+from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponseRedirect, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.views import generic
+from formtools.wizard.views import SessionWizardView
 
 
 def is_ajax(request):
@@ -159,3 +165,102 @@ class BaseDeleteView(BaseViewMixin, generic.DeleteView):
 
         self.add_message('Registro excluído com sucesso!')
         return HttpResponseRedirect(success_url)
+
+
+class BaseWizardView(LoginRequiredMixin, SessionWizardView):
+    """Classe base para views tipo wizard"""
+
+    file_storage = FileSystemStorage(
+        location=os.path.join(settings.MEDIA_ROOT, 'temp_uploads')
+    )
+    success_message = None
+    success_url = None
+
+    def get_template_names(self):
+        """Retorna o template da etapa atual"""
+        if hasattr(self, 'templates'):
+            return [self.templates[self.steps.current]]
+        return super().get_template_names()
+
+    def get_context_data(self, form, **kwargs):
+        """Adiciona contexto comum para todas as etapas"""
+        context = super().get_context_data(form, **kwargs)
+        context.update({
+            'title': self.get_step_title(),
+            'subtitle': self.get_step_subtitle(),
+            'step_title': self.get_step_title(),
+            'step_subtitle': self.get_step_subtitle(),
+        })
+        return context
+
+    def get_step_title(self):
+        """Retorna o título da etapa atual"""
+        if hasattr(self, 'step_titles'):
+            return self.step_titles.get(self.steps.current, '')
+        return ''
+
+    def get_step_subtitle(self):
+        """Retorna o subtítulo da etapa atual"""
+        if hasattr(self, 'step_subtitles'):
+            return self.step_subtitles.get(self.steps.current, '')
+        return ''
+
+    def done(self, form_list, **kwargs):
+        """Método executado ao finalizar o wizard"""
+        try:
+            result = self.process_forms(form_list, **kwargs)
+            if self.success_message:
+                messages.success(self.request, self.success_message)
+            return redirect(self.get_success_url())
+        except Exception as e:
+            messages.error(self.request, f'Erro ao salvar: {str(e)}')
+            return redirect(self.request.path)
+
+    def process_forms(self, form_list, **kwargs):
+        """
+        Método que deve ser sobrescrito para processar os formulários
+        """
+        raise NotImplementedError(
+            "Você deve implementar process_forms em %s" % self.__class__.__name__
+        )
+
+    def get_success_url(self):
+        """Retorna a URL de sucesso"""
+        if self.success_url:
+            return self.success_url
+        raise ImproperlyConfigured(
+            "No URL to redirect to. Provide a success_url."
+        )
+
+
+class BaseDetailView(BaseViewMixin, generic.DetailView):
+    """View base para detalhes"""
+
+    def get(self, request, *args, **kwargs):
+        """Sobrescrevendo get para tratar AJAX"""
+        self.object = self.get_object()
+        context = self.get_context_data(object=self.object)
+
+        if self.is_ajax():
+            return self.render_template_to_json(self.template_name, context)
+        return super().get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        """Adiciona contexto padrão"""
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'title': self.get_title(),
+            'subtitle': self.get_subtitle(),
+            'object': self.object,
+            'is_detail': True
+        })
+        return context
+
+    def get_title(self):
+        """Retorna o título da página"""
+        model_name = self.model._meta.verbose_name.title()
+        return f'Detalhes do {model_name}: {str(self.object)}'
+
+    def get_subtitle(self):
+        """Retorna o subtítulo da página"""
+        return getattr(self, 'subtitle', '')

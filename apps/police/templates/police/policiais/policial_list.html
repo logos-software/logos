@@ -1,0 +1,104 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Policiais{% endblock %}
+
+{% block extracss %}
+<link href="{% static 'vendors/sweetalert2/sweetalert2.min.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="content__header content__boxed overlapping">
+    <div class="content__wrap">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+            <h1 class="h3 mb-0">Policiais</h1>
+            <a href="{% url 'police:policial-create' %}" class="btn btn-primary">
+                <i class="demo-psi-add fs-5 me-2"></i>
+                Novo Policial
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="content__boxed">
+    <div class="content__wrap">
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-hover" id="policiaisTable">
+                    <thead>
+                        <tr>
+                            <th>Matrícula</th>
+                            <th>Nome</th>
+                            <th>CPF</th>
+                            <th>Função</th>
+                            <th>Status</th>
+                            <th width="15%" class="text-center">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for policial in policiais %}
+                        <tr class="py-2 align-middle">
+                            <td class="py-2 align-middle">{{ policial.matricula }}</td>
+                            <td class="py-2 align-middle">{{ policial.nome }}</td>
+                            <td class="py-2 align-middle">{{ policial.cpf }}</td>
+                            <td class="py-2 align-middle">{{ policial.funcao.nome|default:"-" }}</td>
+                            <td class="py-2 align-middle">
+                                {% if policial.active %}
+                                <span class="badge bg-success">Ativo</span>
+                                {% else %}
+                                <span class="badge bg-danger">Inativo</span>
+                                {% endif %}
+                            </td>
+                            <td class="py-2 align-middle text-center">
+                                <button class="btn btn-sm btn-info view-policial" 
+                                        data-id="{{ policial.id }}"
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#policialModal">
+                                    <i class="pli-eye fs-5"></i>
+                                </button>
+                                <button class="btn btn-sm btn-warning edit-policial" 
+                                        data-id="{{ policial.id }}"
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#policialModal">
+                                    <i class="demo-pli-pen-5 fs-5"></i>
+                                </button>
+                                <button class="btn btn-sm btn-danger delete-policial" 
+                                        data-id="{{ policial.id }}">
+                                    <i class="demo-pli-recycling fs-5"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center">Nenhum policial encontrado.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% include 'include/nav_pagination.html' %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block modals %}
+{% include 'police/policiais/includes/_policial_form_modal.html' %}
+{% endblock %}
+
+{% block extrajavascript %}
+<script src="{% static 'vendors/sweetalert2/sweetalert2.all.min.js' %}"></script>
+<script>
+    const policialUrls = {
+        detail: "{% url 'police:policial-detail' 0 %}",
+        update: "{% url 'police:policial-update' 0 %}",
+        delete: "{% url 'police:policial-delete' 0 %}"
+    };
+</script>
+<script src="{% static 'police/js/policial.js' %}"></script>
+<script>
+    $(document).ready(function() {
+        window.policialManager = new PolicialManager();
+    });
+</script>
+{% endblock %}

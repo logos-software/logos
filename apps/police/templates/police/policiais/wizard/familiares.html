@@ -1,0 +1,117 @@
+{% extends 'police/policiais/wizard/base_wizard.html' %}
+
+{% block wizard_content %}
+<div class="row g-3">
+    <!-- Seção de Dados do Familiar -->
+    <div class="col-12">
+        <h6 class="section-title">
+            <i class="demo-pli-family fs-5 me-2"></i>
+            Informações do Familiar
+        </h6>
+        <hr class="mb-4">
+    </div>
+
+    <!-- Nome e Grau de Parentesco -->
+    <div class="col-md-8">
+        <div class="form-group">
+            <label for="{{ wizard.form.nome.id_for_label }}" class="form-label">
+                {{ wizard.form.nome.label }}
+                <span class="text-danger">*</span>
+            </label>
+            {{ wizard.form.nome }}
+            {% if wizard.form.nome.errors %}
+                <div class="invalid-feedback d-block">{{ wizard.form.nome.errors.0 }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="{{ wizard.form.grau_parentesco.id_for_label }}" class="form-label">
+                {{ wizard.form.grau_parentesco.label }}
+                <span class="text-danger">*</span>
+            </label>
+            {{ wizard.form.grau_parentesco }}
+            {% if wizard.form.grau_parentesco.errors %}
+                <div class="invalid-feedback d-block">{{ wizard.form.grau_parentesco.errors.0 }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Data de Nascimento, CPF e RG -->
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="{{ wizard.form.data_nascimento.id_for_label }}" class="form-label">
+                {{ wizard.form.data_nascimento.label }}
+                <span class="text-danger">*</span>
+            </label>
+            {{ wizard.form.data_nascimento }}
+            {% if wizard.form.data_nascimento.errors %}
+                <div class="invalid-feedback d-block">{{ wizard.form.data_nascimento.errors.0 }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="{{ wizard.form.cpf.id_for_label }}" class="form-label">
+                {{ wizard.form.cpf.label }}
+            </label>
+            {{ wizard.form.cpf }}
+            {% if wizard.form.cpf.errors %}
+                <div class="invalid-feedback d-block">{{ wizard.form.cpf.errors.0 }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="{{ wizard.form.rg.id_for_label }}" class="form-label">
+                {{ wizard.form.rg.label }}
+            </label>
+            {{ wizard.form.rg }}
+            {% if wizard.form.rg.errors %}
+                <div class="invalid-feedback d-block">{{ wizard.form.rg.errors.0 }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Contato e Dependente -->
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="{{ wizard.form.contato.id_for_label }}" class="form-label">
+                {{ wizard.form.contato.label }}
+            </label>
+            {{ wizard.form.contato }}
+            {% if wizard.form.contato.errors %}
+                <div class="invalid-feedback d-block">{{ wizard.form.contato.errors.0 }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="form-check-label">
+                {{ wizard.form.dependente }}
+                {{ wizard.form.dependente.label }}
+            </label>
+            {% if wizard.form.dependente.errors %}
+                <div class="invalid-feedback d-block">{{ wizard.form.dependente.errors.0 }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Observações -->
+    <div class="col-12">
+        <div class="form-group">
+            <label for="{{ wizard.form.observacao.id_for_label }}" class="form-label">
+                {{ wizard.form.observacao.label }}
+            </label>
+            {{ wizard.form.observacao }}
+            {% if wizard.form.observacao.errors %}
+                <div class="invalid-feedback d-block">{{ wizard.form.observacao.errors.0 }}</div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,132 @@
+<div class="modal-header">
+    <h5 class="modal-title">{{ title }}</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        <!-- Dados Pessoais -->
+        <div class="col-12 mb-4">
+            <h6 class="section-title">
+                <i class="demo-pli-male fs-5 me-2"></i>
+                Dados Pessoais
+            </h6>
+            <hr>
+            <div class="row">
+                <div class="col-md-4">
+                    <p class="mb-1"><strong>Matrícula:</strong></p>
+                    <p>{{ policial.matricula }}</p>
+                </div>
+                <div class="col-md-8">
+                    <p class="mb-1"><strong>Nome:</strong></p>
+                    <p>{{ policial.nome }}</p>
+                </div>
+                <div class="col-md-4">
+                    <p class="mb-1"><strong>Nome de Guerra:</strong></p>
+                    <p>{{ policial.nome_guerra }}</p>
+                </div>
+                <div class="col-md-4">
+                    <p class="mb-1"><strong>CPF:</strong></p>
+                    <p>{{ policial.cpf }}</p>
+                </div>
+                <div class="col-md-4">
+                    <p class="mb-1"><strong>RG:</strong></p>
+                    <p>{{ policial.rg }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contato -->
+        <div class="col-12 mb-4">
+            <h6 class="section-title">
+                <i class="demo-pli-phone-settings fs-5 me-2"></i>
+                Contato
+            </h6>
+            <hr>
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="mb-1"><strong>E-mail:</strong></p>
+                    <p>{{ policial.email }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p class="mb-1"><strong>E-mail Pessoal:</strong></p>
+                    <p>{{ policial.email_pessoal|default:"-" }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p class="mb-1"><strong>Telefone:</strong></p>
+                    <p>{{ policial.telefone|default:"-" }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p class="mb-1"><strong>Celular:</strong></p>
+                    <p>{{ policial.celular }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Endereço -->
+        <div class="col-12 mb-4">
+            <h6 class="section-title">
+                <i class="demo-pli-map-marker-2 fs-5 me-2"></i>
+                Endereço
+            </h6>
+            <hr>
+            <div class="row">
+                <div class="col-md-3">
+                    <p class="mb-1"><strong>CEP:</strong></p>
+                    <p>{{ policial.cep }}</p>
+                </div>
+                <div class="col-md-9">
+                    <p class="mb-1"><strong>Endereço:</strong></p>
+                    <p>{{ policial.endereco }}, {{ policial.numero }}{% if policial.complemento %} - {{ policial.complemento }}{% endif %}</p>
+                </div>
+                <div class="col-md-4">
+                    <p class="mb-1"><strong>Bairro:</strong></p>
+                    <p>{{ policial.bairro }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p class="mb-1"><strong>Cidade:</strong></p>
+                    <p>{{ policial.cidade }}</p>
+                </div>
+                <div class="col-md-2">
+                    <p class="mb-1"><strong>UF:</strong></p>
+                    <p>{{ policial.uf }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dados Físicos -->
+        {% with dados_fisicos=policial.dados_fisicos %}
+        {% if dados_fisicos %}
+        <div class="col-12">
+            <h6 class="section-title">
+                <i class="demo-pli-weight fs-5 me-2"></i>
+                Dados Físicos
+            </h6>
+            <hr>
+            <div class="row">
+                <div class="col-md-3">
+                    <p class="mb-1"><strong>Altura:</strong></p>
+                    <p>{{ dados_fisicos.altura }}m</p>
+                </div>
+                <div class="col-md-3">
+                    <p class="mb-1"><strong>Peso:</strong></p>
+                    <p>{{ dados_fisicos.peso }}kg</p>
+                </div>
+                <div class="col-md-3">
+                    <p class="mb-1"><strong>Tipo Sanguíneo:</strong></p>
+                    <p>{{ dados_fisicos.get_tipo_sanguineo_display }}</p>
+                </div>
+                <div class="col-md-3">
+                    <p class="mb-1"><strong>Cor da Pele:</strong></p>
+                    <p>{{ dados_fisicos.get_cor_pele_display }}</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endwith %}
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+</div>

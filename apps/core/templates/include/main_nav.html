@@ -75,6 +75,41 @@
             {% if user.is_staff %}
                 <!-- Navigation Category -->
                 <div class="mainnav__categoriy py-3">
+                    <h6 class="mainnav__caption mt-0 px-3 fw-bold">Gestão de Policiais</h6>
+                    <ul class="mainnav__menu nav flex-column">
+                        <li class="nav-item">
+                            <a href="#submenu-policiais" data-bs-toggle="collapse" 
+                            class="nav-link collapsed d-flex justify-content-between align-items-center">
+                                <span>
+                                    <i class="demo-pli-police fs-5 me-2"></i>
+                                    <span class="nav-label">Policiais</span>
+                                </span>
+                                <i class="demo-pli-arrow-down fs-5"></i>
+                            </a>
+                            <div class="collapse" id="submenu-policiais">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a href="{% url 'police:policial-list' %}" class="nav-link">
+                                            <i class="pli-user fs-5 me-2"></i>
+                                            <span class="nav-label">Lista de Policiais</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{% url 'police:policial-create' %}" class="nav-link">
+                                            <i class="demo-pli-add-user fs-5 me-2"></i>
+                                            <span class="nav-label">Novo Policial</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!-- END : Navigation Category -->
+
+
+                <!-- Navigation Category -->
+                <div class="mainnav__categoriy py-3">
                     <h6 class="mainnav__caption mt-0 px-3 fw-bold">Gestão de Funções</h6>
                     <ul class="mainnav__menu nav flex-column">
                         <li class="nav-item">
@@ -107,6 +142,8 @@
                 </div>
                 <!-- END : Navigation Category -->
             {% endif%}
+
+            
 
             <!-- Dynamic Modules Navigation -->
             {% load navigation %}

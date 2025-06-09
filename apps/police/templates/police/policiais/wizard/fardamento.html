@@ -1,0 +1,52 @@
+{% extends 'police/policiais/wizard/base_wizard.html' %}
+
+{% block wizard_content %}
+<div class="row g-3">
+    <!-- Título da Seção -->
+    <div class="col-12">
+        <h6 class="section-title">
+            <i class="demo-pli-shirt fs-5 me-2"></i>
+            Medidas para Fardamento
+        </h6>
+        <hr class="mb-4">
+    </div>
+
+    <!-- Linha 1 - Manequim -->
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="{{ wizard.form.manequim.id_for_label }}" class="form-label">
+                {{ wizard.form.manequim.label }}
+                <span class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="demo-pli-shirt"></i>
+                </span>
+                {{ wizard.form.manequim }}
+            </div>
+            {% if wizard.form.manequim.errors %}
+                <div class="invalid-feedback d-block">{{ wizard.form.manequim.errors.0 }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Linha 1 - Calçado -->
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="{{ wizard.form.calcado.id_for_label }}" class="form-label">
+                {{ wizard.form.calcado.label }}
+                <span class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="demo-pli-boot-2"></i>
+                </span>
+                {{ wizard.form.calcado }}
+            </div>
+            {% if wizard.form.calcado.errors %}
+                <div class="invalid-feedback d-block">{{ wizard.form.calcado.errors.0 }}</div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

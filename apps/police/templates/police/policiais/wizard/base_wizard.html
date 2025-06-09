@@ -1,0 +1,154 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load utils_tags %}
+
+{% block extracss %}
+<link href="{% static 'vendors/flatpickr/flatpickr.min.css' %}" rel="stylesheet">
+<link href="{% static 'vendors/flatpickr/themes/material_blue.css' %}" rel="stylesheet">
+<link href="{% static 'assets/css/wizard.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="content__boxed">
+    <div class="content__wrap">
+        <div class="card">
+            <div class="card-header">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <i class="fs-3 {{ step_icon }} me-2"></i>
+                        <div class="d-inline-block">
+                            <h5 class="mb-0">{{ step_title }}</h5>
+                            <small class="text-muted">{{ step_subtitle }}</small>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <span class="badge bg-primary">Etapa {{ wizard.steps.step1 }} de {{ wizard.steps.count }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="wizard">
+                    <!-- Progress -->
+                    <div class="wizard-progress mb-4">
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" 
+                                 style="width: {% widthratio wizard.steps.step1 wizard.steps.count 100 %}%">
+                            </div>
+                        </div>
+                        <ul class="nav nav-pills nav-justified">
+                            <li class="nav-item {% if wizard.steps.current == 'dados_pessoais' %}active{% endif %}">
+                                <span class="nav-link">
+                                    <i class="demo-pli-male" style="padding-right:5px"></i>
+                                    Dados Pessoais
+                                </span>
+                            </li>
+                            <li class="nav-item {% if wizard.steps.current == 'contato' %}active{% endif %}">
+                                <span class="nav-link">
+                                    <i class="demo-pli-mail" style="padding-right:5px"></i>
+                                    Contato
+                                </span>
+                            </li>
+                            <li class="nav-item {% if wizard.steps.current == 'dados_fisicos' %}active{% endif %}">
+                                <span class="nav-link">
+                                    <i class="demo-pli-weight"></i>
+                                    Dados Físicos
+                                </span>
+                            </li>
+                            <li class="nav-item {% if wizard.steps.current == 'fardamento' %}active{% endif %}">
+                                <span class="nav-link">
+                                    <i class="demo-pli-shirt"></i>
+                                    Fardamento
+                                </span>
+                            </li>
+                            <li class="nav-item {% if wizard.steps.current == 'dados_bancarios' %}active{% endif %}">
+                                <span class="nav-link">
+                                    <i class="demo-pli-credit-card"></i>
+                                    Dados Bancários
+                                </span>
+                            </li>
+                            <li class="nav-item {% if wizard.steps.current == 'familiares' %}active{% endif %}">
+                                <span class="nav-link">
+                                    <i class="demo-pli-family"></i>
+                                    Familiares
+                                </span>
+                            </li>
+                            <li class="nav-item {% if wizard.steps.current == 'escolaridade' %}active{% endif %}">
+                                <span class="nav-link">
+                                    <i class="demo-pli-graduation-cap"></i>
+                                    Escolaridade
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Form -->
+                    <form action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ wizard.management_form }}
+                        
+                        {% block wizard_content %}{% endblock %}
+
+                        <div class="d-flex justify-content-between mt-4">
+                            {% if wizard.steps.prev %}
+                            <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}"
+                                    class="btn btn-secondary">
+                                <i class="demo-psi-arrow-left me-2"></i> Voltar
+                            </button>
+                            {% else %}
+                            <a href="{% url 'police:policial-list' %}" class="btn btn-secondary">
+                                <i class="demo-psi-arrow-left me-2"></i> Cancelar
+                            </a>
+                            {% endif %}
+
+                            <button type="submit" class="btn btn-primary">
+                                {% if wizard.steps.next %}
+                                Próximo <i class="demo-psi-arrow-right ms-2"></i>
+                                {% else %}
+                                Finalizar <i class="demo-psi-check ms-2"></i>
+                                {% endif %}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extrajavascript %}
+<!-- Plugins -->
+<script src="{% static 'vendors/flatpickr/flatpickr.min.js' %}"></script>
+<script src="{% static 'vendors/flatpickr/l10n/pt.js' %}"></script>
+<script src="{% static 'vendors/flatpickr/plugins/monthSelect/index.js' %}"></script>
+
+<!-- Managers -->
+<script src="{% static 'police/js/wizard.js' %}"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Inicialização direta das máscaras
+        if (typeof $.fn.mask !== 'undefined') {
+            $('.cpf-mask').mask('000.000.000-00', {
+                placeholder: "___.___.___-__",
+                clearIfNotMatch: true,
+                reverse: true
+            });
+            
+            $('.phone-mask').mask('(00) 0000-00009').on('keyup', function() {
+                if($(this).val().length > 14) {
+                    $(this).mask('(00) 00000-0009');
+                }
+            });
+            
+            $('.cep-mask').mask('00000-000', {
+                placeholder: "_____-___",
+                clearIfNotMatch: true
+            });
+        }
+        
+        // Inicializa o wizard
+        window.wizardManager = new WizardManager();
+    });
+</script>
+{% endblock %}
